@@ -195,7 +195,6 @@
                             window.location = '{{ route("admin") }}';
                         });
                     } else {
-                        console.log(res);
                         layer.msg(typeof (res.code));
                         return false;
                     }
@@ -203,7 +202,6 @@
                 error: function (res) {
                     if(res.responseJSON.errors){
                         let error="";
-                        console.log(res.responseJSON.errors);
                         for(let i in res.responseJSON.errors){
                             error+=res.responseJSON.errors[i]+"<br/>";
                         }
