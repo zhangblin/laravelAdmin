@@ -112,6 +112,7 @@
             border: 1px solid #e6e6e6;
             height: 36px;
             width: 100%;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -134,13 +135,13 @@
                     <input type="password" name="password" lay-verify="required|password" placeholder="密码"
                            autocomplete="off" class="layui-input" value="123456">
                 </div>
-                {{--                <div class="layui-form-item">--}}
-                {{--                    <label class="layui-icon layui-icon-vercode" for="captcha"></label>--}}
-                {{--                    <input type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">--}}
-                {{--                    <div class="captcha-img">--}}
-                {{--                        <img id="captchaPic" src="../images/captcha.jpg">--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+                                <div class="layui-form-item">
+                                    <label class="layui-icon layui-icon-vercode" for="captcha"></label>
+                                    <input type="text" name="captcha" lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
+                                    <div class="captcha-img">
+                                        <img id="captchaPic" src="{{captcha_src('flat')}}" onclick="this.src='{{captcha_src('flat')}}'+Math.random()">
+                                    </div>
+                                </div>
                 <div class="layui-form-item">
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
                 </div>
@@ -181,18 +182,18 @@
                 layer.msg('密码不能为空');
                 return false;
             }
-            // if (data.captcha == '') {
-            //     layer.msg('验证码不能为空');
-            //     return false;
-            // }
+            if (data.captcha == '') {
+                layer.msg('验证码不能为空');
+                return false;
+            }
             $.ajax({
                 type: 'POST',
                 url: '{{ route("login") }}',
                 data: data,
                 success: function (res) {
                     if (res.code === 200) {
-                        layer.msg('登录成功', function () {
-                            window.location = '{{ route("admin") }}';
+                        layer.msg(res.msg, function () {
+                            window.location = res.data;
                         });
                     } else {
                         layer.msg(typeof (res.code));
@@ -205,7 +206,7 @@
                         for(let i in res.responseJSON.errors){
                             error+=res.responseJSON.errors[i]+"<br/>";
                         }
-                        layer.msg(error);
+                        layer.msg(+error);
                     }else{
                         layer.msg(res.status + " " + res.responseJSON.message);
                     }
