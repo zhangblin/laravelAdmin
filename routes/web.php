@@ -27,7 +27,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get("/getMenuList","HomeController@getMenuList")->name("admin.menu");
         Route::delete("/logout", "LoginController@destroy")->name("logout");
 
+        //用户管理
         Route::resource("user","UserController",["only"=>["edit","update"]]);
+        //菜单管理
+        Route::resource("menu","MenuController");
+        Route::get("/menuList","MenuController@menuList")->name("admin.menuList");
 
     });
 

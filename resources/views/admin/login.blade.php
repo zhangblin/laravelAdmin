@@ -128,7 +128,7 @@
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
                     <input type="text" name="email" lay-verify="required|account" placeholder="用户名或者邮箱"
-                           autocomplete="off" class="layui-input" value="zhangbaolin_bt@qq.com">
+                           autocomplete="off" class="layui-input" value="admin@gmail.com">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>

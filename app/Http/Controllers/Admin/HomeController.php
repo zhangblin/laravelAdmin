@@ -22,7 +22,7 @@ class HomeController extends Controller
         $data["logoInfo"] = ["title" => "LayuiMini", "image" => "/static/admin/images/logo.png", "href" => ""];
         $data["menuInfo"] = ["currency" => ["title" => "常规管理", "icon" => "fa fa-address-book", "child" => [
             ["title" => "系统设置", "icon" => "fa fa-gears", "target" => "_self", "child" => [
-                ["title" => "菜单管理", "href" =>'', "icon" => "fa fa-window-maximize", "target" => "_self"],
+                ["title" => "菜单管理", "href" =>route('menu.index'), "icon" => "fa fa-window-maximize", "target" => "_self"],
             ]],
             ["title" => "表单示例", "href" => '', "icon" => "fa fa-calendar", "target" => "_self", "child" => [
                 ["title" => "普通表单", "href" => "page/form.html", "icon" => "fa fa-list-alt", "target" => "_self"],
