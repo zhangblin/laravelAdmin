@@ -39,13 +39,13 @@
                 <a href="javascript:;">{{ Auth::user()->name }}</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" data-iframe-tab="page/user-setting.html" data-title="基本资料"
+                        <a href="javascript:;" data-iframe-tab="{{ route('user.edit',Auth::user()) }}" data-title="基本资料"
                            data-icon="fa fa-gears">基本资料</a>
                     </dd>
-                    <dd>
-                        <a href="javascript:;" data-iframe-tab="page/user-password.html" data-title="修改密码"
-                           data-icon="fa fa-gears">修改密码</a>
-                    </dd>
+{{--                    <dd>--}}
+{{--                        <a href="javascript:;" data-iframe-tab="page/user-password.html" data-title="修改密码"--}}
+{{--                           data-icon="fa fa-gears">修改密码</a>--}}
+{{--                    </dd>--}}
                     <dd>
                         <a href="javascript:;" class="login-out">退出登录</a>
                     </dd>

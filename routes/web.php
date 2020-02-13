@@ -26,6 +26,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get("/welcome", "HomeController@welcome")->name("admin.welcome");
         Route::get("/getMenuList","HomeController@getMenuList")->name("admin.menu");
         Route::delete("/logout", "LoginController@destroy")->name("logout");
+
+        Route::resource("user","UserController",["only"=>["edit","update"]]);
+
     });
 
 });

@@ -195,9 +195,6 @@
                         layer.msg(res.msg, function () {
                             window.location = res.data.url;
                         });
-                    } else {
-                        layer.msg(typeof (res.code));
-                        return false;
                     }
                 },
                 error: function (res) {
@@ -206,7 +203,7 @@
                         for(let i in res.responseJSON.errors){
                             error+=res.responseJSON.errors[i]+"<br/>";
                         }
-                        layer.msg(+error);
+                        layer.msg(error);
                     }else{
                         layer.msg(res.status + " " + res.responseJSON.message);
                     }
