@@ -14,6 +14,7 @@ class LoginController extends Controller
             'only' => ['index']
         ]);
     }
+
     //
     public function index()
     {
@@ -33,10 +34,16 @@ class LoginController extends Controller
         unset($credentials["captcha"]);
         if (Auth::attempt($credentials)) {
             // 登录成功后的相关操作
-            return ["code"=>200,"msg"=>"登录成功","data"=>route("admin")];
+            return ["code" => 200, "msg" => "登录成功", "data" => ["url"=>route('admin.home')]];
         } else {
             // 登录失败后的相关操作
 
         }
+    }
+
+    public function destroy(Request $request)
+    {
+        Auth::logout();
+        return ["code"=>200,"msg"=>"您已成功退出","data"=>["url"=>route('login')]];
     }
 }

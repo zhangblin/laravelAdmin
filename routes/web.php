@@ -22,8 +22,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::post("/login", "LoginController@store")->name("login");
 
     Route::middleware("auth")->group(function () {
-        Route::get("/", "HomeController@index")->name("admin");
-        Route::get("/logout", "LoginController@destroy")->name("logout");
+        Route::get("/", "HomeController@index")->name("admin.home");
+        Route::get("/welcome", "HomeController@welcome")->name("admin.welcome");
+        Route::get("/getMenuList","HomeController@getMenuList")->name("admin.menu");
+        Route::delete("/logout", "LoginController@destroy")->name("logout");
     });
 
 });

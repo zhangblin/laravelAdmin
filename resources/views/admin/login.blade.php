@@ -193,7 +193,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg(res.msg, function () {
-                            window.location = res.data;
+                            window.location = res.data.url;
                         });
                     } else {
                         layer.msg(typeof (res.code));
