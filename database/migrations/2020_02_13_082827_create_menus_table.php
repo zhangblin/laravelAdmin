@@ -18,8 +18,10 @@ class CreateMenusTable extends Migration
             $table->string("title")->comment("菜单名称");
             $table->integer("pid")->default("0")->comment("上级菜单id");
             $table->string("icon")->comment("菜单图标");
-            $table->string("url")->comment("url");
+            $table->string("href")->comment("菜单url")->nullable();
+            $table->string("target")->comment("target")->default("_self");
             $table->integer("order")->default("0")->comment("排序");
+            $table->tinyInteger("status")->default("1")->comment("状态");
             $table->timestamps();
         });
     }

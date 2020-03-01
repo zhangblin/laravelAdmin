@@ -28,42 +28,35 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
+<script type="text/html" id="switchStatus">
+    <input type="checkbox" name="status" value="@{{d.status}}" lay-skin="switch" lay-text="启用|停用" lay-filter="switchStatus" @{{ d.status== 1 ? 'checked' : '' }}>
+</script>
 @include("admin.static._footer")
 <script>
     layui.use(['table', 'treetable'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var treetable = layui.treetable;
-
+        var form = layui.form;
         // 渲染表格
         layer.load(2);
         treetable.render({
             treeColIndex: 1,
-            treeSpid: -1,
-            treeIdName: 'authorityId',
-            treePidName: 'parentId',
+            treeSpid: 0,
+            treeIdName: 'id',
+            treePidName: 'pid',
             elem: '#munu-table',
             url: '{{ route("admin.menuList") }}',
             page: false,
             cols: [[
                 {type: 'numbers'},
-                {field: 'authorityName', minWidth: 200, title: '权限名称'},
-                {field: 'authority', title: '权限标识'},
-                {field: 'menuUrl', title: '菜单url'},
-                {field: 'orderNumber', width: 80, align: 'center', title: '排序号'},
-                {
-                    field: 'isMenu', width: 80, align: 'center', templet: function (d) {
-                        if (d.isMenu == 1) {
-                            return '<span class="layui-badge layui-bg-gray">按钮</span>';
-                        }
-                        if (d.parentId == -1) {
-                            return '<span class="layui-badge layui-bg-blue">目录</span>';
-                        } else {
-                            return '<span class="layui-badge-rim">菜单</span>';
-                        }
-                    }, title: '类型'
-                },
+                {field: 'title', minWidth: 200, title: '权限名称'},
+                {field: 'icon',width: 80,align: 'center', title: '图标',templet:function (d) {
+                     return '<i class="'+d.icon+'"></i>';
+                 }},
+                {field: 'href', title: '菜单url'},
+                {field: 'created_at', width: 180, align: 'center', title: '添加时间'},
+                {field: 'created_at',width: 180,align: 'center',title: '开关',templet: '#switchStatus',unresize: true},
                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],
             done: function () {
@@ -73,9 +66,9 @@
         $('#btn-add').click(function () {
             layer.open({
                 type: 2
-                ,title: '新增菜单'
+                , title: '新增菜单'
                 , content: '{{ route("menu.create") }}'
-                ,area: ['600px', '470px']
+                , area: ['600px', '470px']
                 , shade: [0.8, '#393D49']
             });
         });
@@ -97,6 +90,10 @@
             } else if (layEvent === 'edit') {
                 layer.msg('修改' + data.id);
             }
+        });
+        //监听状态操作
+        form.on('switch(switchStatus)', function (obj) {
+            layer.tips(this.id + ' ' + this.title + '：' + obj.elem.checked, obj.othis);
         });
     });
 </script>

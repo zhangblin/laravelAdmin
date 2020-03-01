@@ -13,53 +13,39 @@ class MenuController extends Controller
     {
         return view("admin.menu.index");
     }
+
     //菜单内列表
-    public function menuList(){
+    public function menuList()
+    {
         $data["code"] = 0;
         $data["msg"] = '';
-        $data["count"] = 19;
-        $data["data"] = [
-            [
-                "authorityId" => 1,
-                "authorityName" => "系统管理",
-                "orderNumber" => 1,
-                "menuUrl" => null,
-                "menuIcon" => "layui-icon-set",
-                "createTime" => "2018/06/29 11:05:41",
-                "authority" => null,
-                "checked" => 0,
-                "updateTime" => "2018/07/13 09:13:42",
-                "isMenu" => 0,
-                "parentId" => -1
-            ],
-        ];
-        Menu::all();
+        $data["count"] = Menu::count();
+        $data["data"] = Menu::all();
         return $data;
     }
 
     public function create()
     {
-        return view("admin.menu.create");
+        return view("admin.menu.create", ["menuList" => Menu::all()]);
     }
 
 
     public function store(Request $request)
     {
-        $data = $this->validate($request,[
-           "title"=>'required|max:50',
-           "pid"=>'required|number',
-           "order"=>'number'
+        $this->validate($request, [
+            "title" => 'required|max:50',
+            "pid" => 'required|numeric',
+            "order" => 'numeric'
         ]);
+        Menu::create($request->all());
 
-        Menu::create($data);
-
-        return ["code"=>200,"msg"=>"新增成功"];
+        return ["code" => 200, "msg" => "新增成功"];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -70,7 +56,7 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -81,8 +67,8 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -93,7 +79,7 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

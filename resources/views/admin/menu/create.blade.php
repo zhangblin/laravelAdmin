@@ -19,10 +19,9 @@
                 <div class="layui-input-block">
                     <select name="pid" lay-search>
                         <option value="0">一级菜单</option>
-                        <option value="1">阅读</option>
-                        <option value="2">游戏</option>
-                        <option value="3">音乐</option>
-                        <option value="4">旅行</option>
+                        @foreach ($menuList as $menu)
+                            <option value=" {{ $menu->id }}"> {{ $menu->title }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -33,15 +32,20 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">控制器</label>
+                <label class="layui-form-label">菜单URL</label>
                 <div class="layui-input-block">
-                    <input type="text" name="controller"   placeholder="请输入控制器" class="layui-input">
+                    <input type="text" name="href"   placeholder="请输入菜单URL" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">方法</label>
+                <label class="layui-form-label">target</label>
                 <div class="layui-input-block">
-                    <input type="text" name="action"   placeholder="请输入标题" class="layui-input">
+                    <select name="target" lay-search>
+                        <option value="_self">_self</option>
+                        <option value="_blank">_blank</option>
+                        <option value="_parent">_parent</option>
+                        <option value="_top">_top</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
