@@ -23,13 +23,15 @@
         </div>
     </div>
 </div>
+{{ csrf_field() }}
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="switchStatus">
-    <input type="checkbox" name="status" value="@{{d.status}}" lay-skin="switch" lay-text="启用|停用" lay-filter="switchStatus" @{{ d.status== 1 ? 'checked' : '' }}>
+    <input type="checkbox" name="status" id="@{{d.id}}" value="@{{d.status}}" lay-skin="switch" lay-text="启用|停用"
+           lay-filter="switchStatus" @{{ d.status== 1 ? 'checked' : '' }}>
 </script>
 @include("admin.static._footer")
 <script>
@@ -51,12 +53,14 @@
             cols: [[
                 {type: 'numbers'},
                 {field: 'title', minWidth: 200, title: '权限名称'},
-                {field: 'icon',width: 80,align: 'center', title: '图标',templet:function (d) {
-                     return '<i class="'+d.icon+'"></i>';
-                 }},
+                {
+                    field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
+                        return '<i class="' + d.icon + '"></i>';
+                    }
+                },
                 {field: 'href', title: '菜单url'},
                 {field: 'created_at', width: 180, align: 'center', title: '添加时间'},
-                {field: 'created_at',width: 180,align: 'center',title: '开关',templet: '#switchStatus',unresize: true},
+                {field: 'status', width: 180, align: 'center', title: '状态', templet: '#switchStatus', unresize: true},
                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],
             done: function () {
@@ -64,13 +68,7 @@
             }
         });
         $('#btn-add').click(function () {
-            layer.open({
-                type: 2
-                , title: '新增菜单'
-                , content: '{{ route("menu.create") }}'
-                , area: ['600px', '470px']
-                , shade: [0.8, '#393D49']
-            });
+            add_and_edit('新增菜单', '{{ route("menu.create") }}')
         });
         $('#btn-expand').click(function () {
             treetable.expandAll('#munu-table');
@@ -86,16 +84,81 @@
             var layEvent = obj.event;
 
             if (layEvent === 'del') {
-                layer.msg('删除' + data.id);
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route("menu.destroy","") }}/' + data.id,
+                    data: {
+                        '_method': 'DELETE',
+                        '_token': $('input[name=_token]').val()
+                    },
+                    success: function (res) {
+                        if (res.code === 200) {
+                            layer.msg(res.msg, function () {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (res) {
+                        if (res.responseJSON.errors) {
+                            let error = "";
+                            for (let i in res.responseJSON.errors) {
+                                error += res.responseJSON.errors[i] + "<br/>";
+                            }
+                            layer.msg(error);
+                        } else {
+                            layer.msg(res.status + " " + res.responseJSON.message);
+                        }
+
+                        return false;
+                    }
+                });
             } else if (layEvent === 'edit') {
-                layer.msg('修改' + data.id);
+                add_and_edit('修改菜单', '{{ route("menu.show","") }}/' + data.id)
             }
         });
         //监听状态操作
         form.on('switch(switchStatus)', function (obj) {
-            layer.tips(this.id + ' ' + this.title + '：' + obj.elem.checked, obj.othis);
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('menu.update','') }}/"+this.id,
+                data: {
+                    '_method': 'PATCH',
+                    '_token': $('input[name=_token]').val(),
+                    'status': obj.elem.checked ? 1 : 0
+                },
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg(res.msg);
+                    }
+                },
+                error: function (res) {
+                    if (res.responseJSON.errors) {
+                        let error = "";
+                        for (let i in res.responseJSON.errors) {
+                            error += res.responseJSON.errors[i] + "<br/>";
+                        }
+                        layer.msg(error);
+                    } else {
+                        layer.msg(res.status + " " + res.responseJSON.message);
+                    }
+
+                    return false;
+                }
+            });
         });
+
+
     });
+
+    function add_and_edit(name, url) {
+        layer.open({
+            type: 2
+            , title: name
+            , content: url
+            , area: ['600px', '500px']
+            , shade: [0.8, '#393D49']
+        });
+    }
 </script>
 </body>
 </html>

@@ -18,10 +18,11 @@ class HomeController extends Controller
     //获取菜单列表
     public function getMenuList()
     {
+        $menu=Menu::where("status",1)->get();
         $data["clearInfo"] = ["clearUrl" => "clear.json"];
         $data["homeInfo"] = ["title" => "欢迎页", "icon" => "fa fa-home", "href" => route('admin.welcome')];
         $data["logoInfo"] = ["title" => "LayuiMini", "image" => "/static/admin/images/logo.png", "href" => ""];
-        $data["menuInfo"] = ["currency" => ["title" => "常规管理", "icon" => "fa fa-address-book", "child" =>grading(Menu::all())
+        $data["menuInfo"] = ["currency" => ["title" => "常规管理", "icon" => "fa fa-address-book", "child" =>grading($menu)
         ]];
 
         return $data;

@@ -30,7 +30,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         //用户管理
         Route::resource("user","UserController",["only"=>["edit","update"]]);
         //菜单管理
-        Route::resource("menu","MenuController");
+        Route::resource("menu","MenuController",["only"=>["index","create","store","show","update","destroy"]]);
         Route::get("/menuList","MenuController@menuList")->name("admin.menuList");
 
     });

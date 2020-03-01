@@ -24,11 +24,11 @@ class MenuController extends Controller
         return $data;
     }
 
-    public function create()
+    public function create(Menu $menu)
     {
-        return view("admin.menu.create", ["menuList" => Menu::all()]);
+        $menuList = Menu::all();
+        return view("admin.menu.create_and_edit", compact('menu', 'menuList'));
     }
-
 
     public function store(Request $request)
     {
@@ -42,48 +42,26 @@ class MenuController extends Controller
         return ["code" => 200, "msg" => "新增成功"];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Menu $menu)
     {
-        //
+        $menuList = Menu::all();
+        return view("admin.menu.create_and_edit", compact('menu', 'menuList'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Menu $menu)
     {
-        //
+        $this->validate($request, [
+            "title" => 'max:50',
+            "pid" => 'numeric',
+            "order" => 'numeric'
+        ]);
+        $menu->update($request->all());
+        return ["code" => 200, "msg" => "修改成功"];
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Menu $menu)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $menu->delete();
+        return ["code" => 200, "msg" => "删除成功"];
     }
 }
