@@ -32,7 +32,7 @@ class SeedMenusTable extends Migration
                 'title' => '菜单管理',
                 'pid' => '1',
                 'icon' => 'fa fa-window-maximize',
-                'href' => 'http://admin.test/admin/menu',
+                'href' => route('menu.index'),
                 'target' => '_self',
                 'order' => '0',
                 'status' => '1',
