@@ -95,7 +95,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg(res.msg, function () {
-                            location.reload();
+                            parent.location.reload();
                         });
                     }
                 },
