@@ -12,27 +12,15 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户性别</label>
+                            <label class="layui-form-label">邮箱</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="sex" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户城市</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="city" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户职业</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="classify" autocomplete="off" class="layui-input">
+                                <input type="text" name="email" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -72,22 +60,15 @@
             url: '{{ route("user.getUsers") }}',
             toolbar: '#toolbarDemo',
             height: $(window).height()*0.75,
-            defaultToolbar: ['filter', 'exports', 'print', {
-                title: '提示',
-                layEvent: 'LAYTABLE_TIPS',
-                icon: 'layui-icon-tips'
-            }],
+            defaultToolbar: [],
             cols: [[
                 {type: "checkbox", width: 50, fixed: "left"},
-                {field: 'id', width: 80, title: 'ID', sort: true},
-                {field: 'name', width: 80, title: '用户名'},
-                {field: 'sex', width: 80, title: '性别', sort: true},
-                {field: 'email', width: 180, title: '邮箱'},
-                {field: 'sign', title: '签名', minWidth: 150},
-                {field: 'experience', width: 80, title: '积分', sort: true},
-                {field: 'score', width: 80, title: '评分', sort: true},
-                {field: 'classify', width: 80, title: '职业'},
-                {field: 'wealth', width: 135, title: '财富', sort: true},
+                {field: 'id', width: 80, title: 'ID', align: "center"},
+                {field: 'name', width: 80, title: '用户名', align: "center"},
+                {field: 'email', width: 180, title: '邮箱', align: "center"},
+                {field: 'sign', title: '角色', minWidth: 150, align: "center"},
+                {field: 'created_at', width: 180, title: '创建时间', align: "center"},
+                {field: 'updated_at', width: 180, title: '更新时间', align: "center"},
                 {title: '操作', minWidth: 50, templet: '#currentTableBar', fixed: "right", align: "center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
@@ -98,9 +79,7 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);
-            layer.alert(result, {
-                title: '最终的搜索信息'
-            });
+
 
             //执行搜索重载
             table.reload('currentTableId', {
@@ -117,21 +96,7 @@
 
         // 监听添加操作
         $(".data-add-btn").on("click", function () {
-
-            var index = layer.open({
-                title: '添加用户',
-                type: 2,
-                shade: 0.2,
-                maxmin:true,
-                shadeClose: true,
-                area: ['100%', '100%'],
-                content: '/page/table/add.html',
-            });
-            $(window).on("resize", function () {
-                layer.full(index);
-            });
-
-            return false;
+            add_and_edit();
         });
 
         // 监听删除操作
@@ -149,20 +114,7 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'edit') {
-
-                var index = layer.open({
-                    title: '编辑用户',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin:true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content: '/page/table/edit.html',
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
-                return false;
+                add_and_edit();
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
                     obj.del();
@@ -172,6 +124,17 @@
         });
 
     });
+
+    function add_and_edit() {
+        layer.open({
+            title: '添加用户',
+            type: 2,
+            shade: 0.2,
+            shadeClose: true,
+            area: ['600px', '500px'],
+            content: '/page/table/add.html',
+        });
+    }
 </script>
 <script>
 

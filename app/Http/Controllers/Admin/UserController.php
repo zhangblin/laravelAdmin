@@ -33,12 +33,13 @@ class UserController extends Controller
         return ["code" => 200, "msg" => "修改成功"];
     }
 
-    public function getUsers()
+    public function getUsers(Request $request)
     {
+
         $data["code"] = 0;
         $data["msg"] = '';
         $data["count"] = User::count();
-        $data["data"] = User::orderBy('id', 'asc')->get();
+        $data["data"] = User::where($request->searchParams)->orderBy('id', 'asc')->get();
         return $data;
     }
 }
