@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
             $table->bigIncrements('id');
             $table->string("title")->comment("菜单名称");
             $table->integer("pid")->default("0")->comment("上级菜单id");
-            $table->string("icon")->comment("菜单图标");
+            $table->string("icon")->comment("菜单图标")->nullable();
             $table->string("href")->comment("菜单url")->nullable();
             $table->string("target")->comment("target")->default("_self");
             $table->integer("order")->default("0")->comment("排序");

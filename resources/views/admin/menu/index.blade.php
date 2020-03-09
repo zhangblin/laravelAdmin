@@ -60,6 +60,7 @@
                 },
                 {field: 'href', title: '菜单url'},
                 {field: 'created_at', width: 180, align: 'center', title: '添加时间'},
+                {field: 'order', width: 80, align: 'center', title: '排序'},
                 {field: 'status', width: 180, align: 'center', title: '状态', templet: '#switchStatus', unresize: true},
                 {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
             ]],

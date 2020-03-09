@@ -20,7 +20,7 @@ class MenuController extends Controller
         $data["code"] = 0;
         $data["msg"] = '';
         $data["count"] = Menu::count();
-        $data["data"] = Menu::all();
+        $data["data"] = Menu::orderBy('order','asc')->get();
         return $data;
     }
 
