@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::resource("menu","MenuController",["only"=>["index","create","store","show","update","destroy"]]);
         Route::get("/menuList","MenuController@menuList")->name("admin.menuList");
 
+
     });
 
 });
